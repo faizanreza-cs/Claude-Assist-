@@ -61,10 +61,18 @@ def share_trend(metric: str = "trx", freq: str = "month") -> pd.DataFrame:
     if freq not in {"week", "month", "quarter"}:
         raise ValueError("freq must be week, month or quarter")
     sql = f"""
-        SELECT date_trunc('{freq}', week) AS period, brand, SUM({metric}) AS volume
-        FROM weekly_rx GROUP BY 1, 2 ORDER BY 1, 2
+        WITH n AS (
+            SELECT date_trunc('{freq}', week) AS period, COUNT(DISTINCT week) AS weeks
+            FROM weekly_rx GROUP BY 1
+        )
+        SELECT date_trunc('{freq}', r.week) AS period, r.brand, SUM(r.{metric}) AS volume,
+               ANY_VALUE(n.weeks) AS weeks
+        FROM weekly_rx r JOIN n ON date_trunc('{freq}', r.week) = n.period
+        GROUP BY 1, 2 ORDER BY 1, 2
     """
     df = query(sql)
+    # months hold 4 or 5 weeks; report a per-week rate so periods are comparable
+    df["avg_weekly_volume"] = (df["volume"] / df["weeks"]).round(1)
     df["share"] = (df["volume"] / df.groupby("period")["volume"].transform("sum")).round(4)
     return df
 

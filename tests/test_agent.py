@@ -112,3 +112,46 @@ def test_openai_message_conversion():
     out = OpenAIProvider._convert("sys", msgs)
     assert [m["role"] for m in out] == ["system", "user", "assistant", "tool"]
     assert out[2]["tool_calls"][0]["function"]["arguments"] == '{"a": 1}'
+
+
+class _FakeMessages:
+    def __init__(self):
+        self.kwargs = None
+
+    def create(self, **kwargs):
+        from types import SimpleNamespace
+
+        self.kwargs = kwargs
+        return SimpleNamespace(
+            content=[
+                SimpleNamespace(type="thinking", thinking=""),
+                SimpleNamespace(type="text", text="Checking share."),
+                SimpleNamespace(
+                    type="tool_use", id="tu_1", name="market_share", input={"by": "region"}
+                ),
+            ],
+            stop_reason="tool_use",
+            usage=SimpleNamespace(input_tokens=1200, output_tokens=80),
+        )
+
+
+def test_anthropic_provider_request_and_parsing():
+    from types import SimpleNamespace
+
+    from pharmapulse.llm.provider import AnthropicProvider
+
+    p = object.__new__(AnthropicProvider)  # skip client construction (no API key in CI)
+    p.model, p.effort = "claude-opus-5-5", "medium"
+    fake = _FakeMessages()
+    p.client = SimpleNamespace(beta=SimpleNamespace(messages=fake), messages=fake)
+    turn = p.complete("sys", [{"role": "user", "content": "q"}], tools.tool_definitions())
+
+    assert fake.kwargs["output_config"] == {"effort": "medium"}
+    assert fake.kwargs["fallbacks"] == "default"
+    assert fake.kwargs["betas"] == ["server-side-fallback-2026-07-01"]
+    assert turn.tool_calls[0].name == "market_share" and turn.tool_calls[0].input == {
+        "by": "region"
+    }
+    assert turn.text == "Checking share."
+    assert len(turn.content) == 3  # thinking block kept so it can be echoed back unchanged
+    assert turn.usage == {"input_tokens": 1200, "output_tokens": 80}

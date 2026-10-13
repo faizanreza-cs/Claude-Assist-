@@ -28,3 +28,13 @@ jobs:
         with:
           name: eval-report
           path: reports/
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t pharmapulse .
+      - name: Smoke test
+        run: |
+          docker run --rm pharmapulse python -c "from pharmapulse.llm.agent import ask; r = ask('What is the market share by brand?', 'mock'); assert r.tools_used == ['market_share'], r.tools_used; print(r.answer)"
