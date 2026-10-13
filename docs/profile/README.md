@@ -16,12 +16,12 @@ brand teams forecast demand, understand patient behaviour and decide where to sp
 
 ---
 
-### 🔭 Featured project: [PharmaPulse](https://github.com/faizanreza-cs/Claude-Assist-)
+### 🔭 Featured project: [PharmaPulse](https://github.com/faizanreza-cs/pharmapulse)
 
 An AI analytics copilot for a pharma brand team, built end to end on a seeded synthetic
 type 2 diabetes market (4 brands · 2,000 HCPs · 12,000 patients · 3 years of weekly Rx).
 
-- **LLM agent** (Claude by default, provider-agnostic) that answers brand questions by calling
+- **LLM agent** (Anthropic API by default, provider-agnostic) that answers brand questions by calling
   12 analytics tools. Every figure is traced to a tool output; model-written SQL runs through
   a `sqlglot` read-only guard.
 - **Forecasting**: seasonal-naive / Holt-Winters / gradient boosting, auto-selected by holdout
@@ -29,10 +29,10 @@ type 2 diabetes market (4 brands · 2,000 HCPs · 12,000 patients · 3 years of 
 - **Patient analytics**: Kaplan-Meier persistence, PDC adherence, switching flows from claims.
 - **HCP targeting**: volume deciles, value × loyalty segments, next-best-target scoring,
   adstocked promotional response.
-- **Evals and engineering**: 25-question golden eval harness, 62 tests, FastAPI, Streamlit,
+- **Evals and engineering**: 25-question golden eval harness, 63 tests, FastAPI, Streamlit,
   Docker, GitHub Actions.
 
-<img src="https://raw.githubusercontent.com/faizanreza-cs/Claude-Assist-/main/docs/img/overview.png" width="720" alt="PharmaPulse dashboard"/>
+<img src="https://raw.githubusercontent.com/faizanreza-cs/pharmapulse/main/docs/img/overview.png" width="720" alt="PharmaPulse dashboard"/>
 
 ---
 

@@ -330,8 +330,9 @@ with tab_hcp:
 with tab_ask:
     provider = get_provider()
     st.caption(
-        f"Provider: **{provider.name}** ({provider.model}). Set `ANTHROPIC_API_KEY` to use Claude; "
-        "without it the app runs a deterministic offline router."
+        f"Provider: **{provider.name}** ({provider.model}). Set `ANTHROPIC_API_KEY` and "
+        "`PHARMAPULSE_MODEL` to use the Anthropic API; otherwise the app runs a deterministic "
+        "offline router."
     )
     examples = [
         "Forecast Glyvance TRx for the next 13 weeks",

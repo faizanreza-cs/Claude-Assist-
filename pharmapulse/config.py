@@ -18,10 +18,15 @@ class Settings:
     )
     # "auto" picks anthropic when credentials exist, else mock. Also: anthropic | openai | mock
     provider: str = field(default_factory=lambda: _env("PHARMAPULSE_PROVIDER", "auto"))
-    model: str = field(default_factory=lambda: _env("PHARMAPULSE_MODEL", "claude-opus-5-5"))
+    # model id for the anthropic/openai providers; required for those, unused in mock mode
+    model: str = field(default_factory=lambda: _env("PHARMAPULSE_MODEL", ""))
     effort: str = field(default_factory=lambda: _env("PHARMAPULSE_EFFORT", "medium"))
     max_agent_steps: int = field(default_factory=lambda: int(_env("PHARMAPULSE_MAX_STEPS", "8")))
     sql_row_limit: int = field(default_factory=lambda: int(_env("PHARMAPULSE_SQL_LIMIT", "200")))
+    # opt in to Anthropic server-side refusal fallback (models that support it)
+    fallbacks: bool = field(
+        default_factory=lambda: _env("PHARMAPULSE_FALLBACKS", "0").lower() in {"1", "true", "yes"}
+    )
 
 
 def get_settings() -> Settings:

@@ -1,6 +1,6 @@
 # PharmaPulse: an AI analytics copilot for pharma brand teams
 
-[![CI](https://github.com/faizanreza-cs/Claude-Assist-/actions/workflows/ci.yml/badge.svg)](https://github.com/faizanreza-cs/Claude-Assist-/actions/workflows/ci.yml)
+[![CI](https://github.com/faizanreza-cs/pharmapulse/actions/workflows/ci.yml/badge.svg)](https://github.com/faizanreza-cs/pharmapulse/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -35,7 +35,7 @@ those same analytics as tools and replies with figures traced to their source.
 flowchart LR
     U[Brand team question] --> A[Agent loop<br/>llm/agent.py]
     A -->|system prompt + tool catalogue| P{LLMProvider}
-    P --> C[Claude<br/>Anthropic SDK]
+    P --> C[Anthropic API<br/>official SDK]
     P --> O[OpenAI<br/>optional]
     P --> M[Mock router<br/>offline / CI]
     A -->|tool calls| T[Tools<br/>llm/tools.py]
@@ -54,7 +54,7 @@ The design choices that matter in production:
 - **Plain, testable tool-use loop** (no framework). Parallel tool calls come back in a single
   message, tool errors return to the model as `is_error` results instead of crashing, and a
   step limit bounds runaway loops. Each piece has a unit test with scripted providers.
-- **Provider-agnostic.** Claude is the default (via the official `anthropic` SDK, with effort
+- **Provider-agnostic.** The Anthropic API is the default (via the official `anthropic` SDK, with effort
   control and server-side refusal fallback). OpenAI is a drop-in extra, and a deterministic
   mock router lets CI exercise the whole pipeline with no API key.
 - **Guardrails on model-written SQL.** Queries are parsed with `sqlglot`: one `SELECT` only,
@@ -77,8 +77,8 @@ The design choices that matter in production:
 
 **Agent eval**: `make eval` runs the 25 golden questions offline with the mock router:
 100% tool selection and 100% answer accuracy. That number checks the *plumbing*
-(routing → tools → grounded answer), not model quality. `make eval-claude` runs the same
-suite against Claude and writes `reports/eval_summary_anthropic.md` with accuracy, latency
+(routing → tools → grounded answer), not model quality. `make eval-llm` runs the same
+suite against the Anthropic API and writes `reports/eval_summary_anthropic.md` with accuracy, latency
 and token usage.
 
 ## Screenshots
@@ -92,7 +92,7 @@ and token usage.
 ## Quickstart
 
 ```bash
-git clone https://github.com/faizanreza-cs/Claude-Assist-.git pharmapulse && cd pharmapulse
+git clone https://github.com/faizanreza-cs/pharmapulse.git pharmapulse && cd pharmapulse
 make setup        # uv venv + editable install with app and dev extras
 make data         # build data/pharmapulse.duckdb (~10 s)
 make app          # dashboard on http://localhost:8501
@@ -103,6 +103,7 @@ Ask the agent from the command line:
 
 ```bash
 export ANTHROPIC_API_KEY=...          # optional; without it the offline mock router is used
+export PHARMAPULSE_MODEL=...          # the Anthropic model id to use
 pharmapulse ask "Which brand has the best 12-month persistence, and how does Glyvance compare?" --trace
 curl -X POST localhost:8000/ask -H 'content-type: application/json' \
      -d '{"question": "Forecast Glyvance TRx for the next 13 weeks"}'
@@ -112,14 +113,15 @@ Docker: `docker compose up` starts the API (`:8000`) and the dashboard (`:8501`)
 
 | Setting | Default | Purpose |
 |---|---|---|
-| `PHARMAPULSE_PROVIDER` | `auto` | `anthropic`, `openai`, `mock`; `auto` uses Claude when credentials exist |
-| `PHARMAPULSE_MODEL` | `claude-opus-5-5` | model id for the chosen provider |
-| `PHARMAPULSE_EFFORT` | `medium` | Claude effort level (`low` … `max`) |
+| `PHARMAPULSE_PROVIDER` | `auto` | `anthropic`, `openai`, `mock`; `auto` uses the Anthropic API when credentials and a model id are set |
+| `PHARMAPULSE_MODEL` | none | model id for the chosen provider (required unless `mock`) |
+| `PHARMAPULSE_EFFORT` | `medium` | Anthropic effort level (`low` … `max`) |
+| `PHARMAPULSE_FALLBACKS` | `0` | `1` enables Anthropic server-side refusal fallback |
 | `PHARMAPULSE_DB` | `data/pharmapulse.duckdb` | database path |
 
 ## Engineering
 
-- `make test`: 62 pytest tests, offline. They cover generator determinism, hand-checked PDC
+- `make test`: 63 pytest tests, offline. They cover generator determinism, hand-checked PDC
   and persistence fixtures, share invariants, forecast intervals, SQL-guard attack cases,
   agent-loop bookkeeping, OpenAI message conversion and the API.
 - `make lint`: ruff (lint + format) and mypy.
