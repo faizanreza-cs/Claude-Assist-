@@ -1,0 +1,131 @@
+# Golden business questions for the PharmaPulse agent.
+#
+# expected_tools: tools a competent analyst would use (graded: any one must be called)
+# truth:          named ground-truth function in run_evals.py; the figures it returns must
+#                 appear in the answer (within tolerance). Ground truth is computed from the
+#                 analytics layer at eval time, so it never drifts from the data.
+
+- id: share_latest
+  question: What is Glyvance's TRx market share over the latest 13 weeks?
+  expected_tools: [market_share, brand_growth]
+  truth: share_latest_glyvance
+
+- id: share_leader
+  question: Which brand leads the market on TRx share right now?
+  expected_tools: [market_share, brand_growth]
+  truth: share_latest_glyvance
+
+- id: share_nrx
+  question: What is Glucora's NRx market share over the latest 13 weeks?
+  expected_tools: [market_share, brand_growth]
+  truth: share_latest_glucora_nrx
+
+- id: share_by_region
+  question: Show Glyvance TRx share by region for the latest 13 weeks.
+  expected_tools: [market_share]
+  truth: share_southeast_glyvance
+
+- id: share_by_specialty
+  question: How does TRx share differ by specialty? Show share by specialty.
+  expected_tools: [market_share]
+  truth: share_endo_glyvance
+
+- id: growth_yoy
+  question: How did Glyvance TRx grow year over year in the latest 13 weeks?
+  expected_tools: [brand_growth]
+  truth: growth_glyvance_yoy
+
+- id: growth_dpp4
+  question: Is Sitaglin growing or declining versus last year?
+  expected_tools: [brand_growth]
+  truth: growth_sitaglin_yoy
+
+- id: forecast_13
+  question: Forecast Glyvance TRx for the next 13 weeks.
+  expected_tools: [forecast_brand]
+  truth: forecast_glyvance_13
+
+- id: forecast_8_glucora
+  question: What is the forecast for Glucora TRx over the next 8 weeks?
+  expected_tools: [forecast_brand]
+  truth: forecast_glucora_8
+
+- id: forecast_nrx
+  question: Predict Glyvance new prescriptions (NRx) for the next 13 weeks.
+  expected_tools: [forecast_brand]
+  truth: forecast_glyvance_nrx_13
+
+- id: launch
+  question: How is the Glucora launch uptake tracking? What NRx share has it reached?
+  expected_tools: [launch_uptake]
+  truth: launch_glucora_latest
+
+- id: persistence_brand
+  question: Which brand has the best 12-month persistence and what is Glyvance's?
+  expected_tools: [patient_persistence]
+  truth: persistence_glyvance_365
+
+- id: persistence_age
+  question: How does 12-month persistence vary by age band?
+  expected_tools: [patient_persistence]
+  truth: persistence_young_365
+
+- id: discontinuation
+  question: What share of Sitaglin patients discontinue within a year?
+  expected_tools: [patient_persistence]
+  truth: persistence_sitaglin_365
+
+- id: adherence
+  question: What is the mean PDC for Glyvance patients and what percent are adherent?
+  expected_tools: [patient_adherence]
+  truth: adherence_glyvance
+
+- id: switching
+  question: Where do patients switch to when they leave Glyvance?
+  expected_tools: [switching_matrix]
+  truth: switch_glyvance_top
+
+- id: switching_in
+  question: Which brand do Sitaglin switchers most often go to?
+  expected_tools: [switching_matrix]
+  truth: switch_sitaglin_top
+
+- id: targets
+  question: Which HCPs should reps target next for Glyvance?
+  expected_tools: [next_best_targets]
+  truth: target_top_hcp
+
+- id: targets_region
+  question: Give me the top Glyvance targets in the Midwest.
+  expected_tools: [next_best_targets]
+  truth: target_top_midwest
+
+- id: segments
+  question: How many HCPs are in each Glyvance segment?
+  expected_tools: [hcp_segments]
+  truth: segment_growth_targets
+
+- id: deciles
+  question: What is our share among decile 10 prescribers?
+  expected_tools: [decile_summary]
+  truth: decile10_share
+
+- id: promo
+  question: Do rep calls drive Glyvance NRx? What is the promotional ROI per 100 calls?
+  expected_tools: [promo_response]
+  truth: promo_per100
+
+- id: sql_hcps
+  question: How many Endocrinology HCPs are in the database? Use SQL.
+  expected_tools: [run_sql]
+  truth: sql_endo_count
+
+- id: sql_formulary
+  question: How many region-quarters had Glyvance on tier 1 formulary access? Count with SQL.
+  expected_tools: [run_sql]
+  truth: sql_tier1_count
+
+- id: sql_patients
+  question: How many patients started on Glucora? Count them with SQL.
+  expected_tools: [run_sql]
+  truth: sql_glucora_patients
