@@ -4,7 +4,7 @@ UV ?= uv
 .PHONY: setup data test lint eval eval-claude api app demo docker notebooks clean
 
 setup:            ## create venv and install everything
-	$(UV) venv .venv
+	$(UV) venv --allow-existing .venv
 	$(UV) pip install --python $(PY) -e ".[app,dev]"
 
 data:             ## generate the synthetic DuckDB database

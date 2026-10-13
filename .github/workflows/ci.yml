@@ -14,7 +14,7 @@ jobs:
           python-version: "3.12"
       - name: Install
         run: |
-          uv venv .venv
+          uv venv --allow-existing .venv
           uv pip install --python .venv/bin/python -e ".[app,dev]"
       - name: Lint and type-check
         run: make lint
