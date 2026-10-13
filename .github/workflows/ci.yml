@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          uv venv .venv
+          uv pip install --python .venv/bin/python -e ".[app,dev]"
+      - name: Lint and type-check
+        run: make lint
+      - name: Tests
+        run: make test
+      - name: Build data
+        run: make data
+      - name: Agent eval (mock provider)
+        run: make eval
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eval-report
+          path: reports/
