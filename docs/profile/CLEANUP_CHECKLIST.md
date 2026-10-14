@@ -33,12 +33,12 @@ GitHub settings. Nothing here has been deleted or changed for you.
 
 ## 3. Profile settings (10 minutes)
 
-- [ ] **Bio** (≤160 chars): *AI Engineer · LLM agents, forecasting & patient analytics for pharma commercial teams · Python · SQL · LLMs*
+- [ ] **Bio** (≤160 chars): *AI Engineer · Consumer health, CPG & pharma analytics · LLM agents · Python · SQL · Snowflake · Power BI · Dataiku*
 - [ ] Name: Faizan Reza · Location: Delhi, India · enable "Available for hire" (already on).
 - [ ] Add LinkedIn and, if you have one, a website or blog under Social accounts.
 - [ ] Use a clear, professional profile photo.
-- [ ] **Pin** (Customize your pins), in this order: `agentkit-enterprise`, `docflow-agent`, `ragdesk`, `pharma-mcp`, `pharmapulse`. No forks.
-- [ ] Add topics to each new repo, e.g. `ai-agents` `llm` `automation` `mcp` `rag` `document-ai` `fastapi` `python`.
+- [ ] **Pin** (Customize your pins), in this order: `retail-media-lab`, `shelfsense`, `agentkit-enterprise`, `pharmapulse`, `ragdesk`, `docflow-agent`. No forks. (`pharma-mcp` stays in the profile README's table.)
+- [ ] Add topics to each new repo, e.g. `ai-agents` `llm` `automation` `mcp` `rag` `document-ai` `fastapi` `python`; for the CPG repos `retail-media` `amazon-ads` `marketing-mix-modeling` `causal-inference` `recommender-system` `nlp` `snowflake` `power-bi` `dataiku`.
 
 ## 4. Remove fork noise (20 minutes)
 
