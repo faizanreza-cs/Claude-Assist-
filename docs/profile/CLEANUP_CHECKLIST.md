@@ -37,7 +37,8 @@ GitHub settings. Nothing here has been deleted or changed for you.
 - [ ] Name: Faizan Reza · Location: Delhi, India · enable "Available for hire" (already on).
 - [ ] Add LinkedIn and, if you have one, a website or blog under Social accounts.
 - [ ] Use a clear, professional profile photo.
-- [ ] **Pin** (Customize your pins): PharmaPulse first, then each new original project as you ship it. Pin 4–6 repos maximum, no forks.
+- [ ] **Pin** (Customize your pins), in this order: `agentkit-enterprise`, `docflow-agent`, `ragdesk`, `pharma-mcp`, `pharmapulse`. No forks.
+- [ ] Add topics to each new repo, e.g. `ai-agents` `llm` `automation` `mcp` `rag` `document-ai` `fastapi` `python`.
 
 ## 4. Remove fork noise (20 minutes)
 
