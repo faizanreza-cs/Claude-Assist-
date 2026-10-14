@@ -1,8 +1,22 @@
-# PharmaPulse: an AI analytics copilot for pharma brand teams
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/logo-dark.svg">
+  <img src="docs/img/logo.svg" alt="PharmaPulse" height="100">
+</picture>
+
+<p><em>An AI analytics copilot for pharma brand teams.</em></p>
 
 [![CI](https://github.com/faizanreza-cs/pharmapulse/actions/workflows/ci.yml/badge.svg)](https://github.com/faizanreza-cs/pharmapulse/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2)](https://www.linkedin.com/in/YOUR-LINKEDIN-ID)
+[![X](https://img.shields.io/badge/X-Follow-000000?logo=x&logoColor=white)](https://x.com/YOUR_X_HANDLE)
+
+</div>
+
+## ⚡ Overview
 
 PharmaPulse answers the questions a brand director actually asks: *"Are we gaining share?
 What will TRx look like next quarter? Why are patients dropping off? Which prescribers should
@@ -124,33 +138,11 @@ Docker: `docker compose up` starts the API (`:8000`) and the dashboard (`:8501`)
 - `make test`: 63 pytest tests, offline. They cover generator determinism, hand-checked PDC
   and persistence fixtures, share invariants, forecast intervals, SQL-guard attack cases,
   agent-loop bookkeeping, OpenAI message conversion and the API.
-- `make lint`: ruff (lint + format) and mypy.
-- GitHub Actions runs lint, tests, data build and the mock eval on every push, and uploads
-  the eval report as an artifact.
 - Executed notebooks: [market EDA](notebooks/01_market_eda.ipynb) ·
   [forecast backtest and promo response](notebooks/02_forecast_backtest.ipynb).
 
-```
-pharmapulse/
-  data/        synth.py (seeded generator) · schema.sql (DuckDB star schema)
-  analytics/   forecasting · market_share · patient_journey · hcp_segmentation · promo_response
-  llm/         provider.py · tools.py · agent.py · sql_guard.py
-  evals/       golden_questions.yaml · run_evals.py
-  api/         main.py (FastAPI)
-app/           streamlit_app.py
-docs/          architecture.md · methodology.md · model_card.md
-```
-
 More detail: [architecture](docs/architecture.md) · [methodology and definitions](docs/methodology.md) ·
 [model card and limitations](docs/model_card.md).
-
-## Roadmap
-
-- Rolling-origin backtests and hierarchical (national → region) forecast reconciliation
-- Causal promo response (difference-in-differences on call-plan changes; uplift models)
-- Line-of-therapy and patient-journey Sankey from claims
-- LLM-judge eval for answer quality alongside the exact-figure check; prompt caching for the tool catalogue
-- Swap the synthetic feed for public data (CMS Part D prescriber files, openFDA) behind the same schema
 
 ## License
 

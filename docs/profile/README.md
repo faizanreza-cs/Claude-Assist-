@@ -1,7 +1,7 @@
 <!--
   Profile README for github.com/faizanreza-cs.
   To publish: create a public repo named exactly `faizanreza-cs` and put this file at its root.
-  Fill in the TODO links before publishing.
+  Replace YOUR-LINKEDIN-ID and YOUR_X_HANDLE with your own before publishing.
 -->
 
 # Hi, I'm Faizan Reza
@@ -14,7 +14,8 @@ governed LLM agents and automations.
 📍 Delhi, India · 🎓 Computer Science Engineering graduate · 💼 Available for freelance projects and full-time AI engineering roles
 
 [![Email](https://img.shields.io/badge/email-faizanreza01%40gmail.com-blue)](mailto:faizanreza01@gmail.com)
-<!-- TODO: [![LinkedIn](https://img.shields.io/badge/LinkedIn-profile-0A66C2)](https://www.linkedin.com/in/YOUR-HANDLE) -->
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2)](https://www.linkedin.com/in/YOUR-LINKEDIN-ID)
+[![X](https://img.shields.io/badge/X-Follow-000000?logo=x&logoColor=white)](https://x.com/YOUR_X_HANDLE)
 
 ---
 
@@ -22,6 +23,7 @@ governed LLM agents and automations.
 
 | Project | What it does | Highlights |
 |---|---|---|
+| [**PDLwatch**](https://github.com/faizanreza-cs/pdlwatch) | State Medicaid preferred drug lists, read from PDFs (tables, lists, scans, prose) and tracked over time | 2 wrong of 5,112 auto-accepted rows on held-out states of a 106-PDF test set, every row cited to its page, a review queue for the rest, changes and point-in-time history |
 | [**retail-media-lab**](https://github.com/faizanreza-cs/retail-media-lab) | Amazon Ads analytics for a supplements brand: AMC-style SQL, attribution, a geo holdout, a marketing mix model and a budget optimizer | Every method scored against a simulator's truth (geo-test iROAS 2.03 vs true 1.90; budget plan reaches 89% of the best possible) |
 | [**shelfsense**](https://github.com/faizanreza-cs/shelfsense) | Consumer insights for a health and nutrition store: recommender, review aspect sentiment, monitoring | Learned re-ranker that lifts recall 28% over the best single model on 91k real Amazon reviews, LLM labels distilled into a cheap classifier, an alert that caught a simulated reformulation in its first month |
 | [**agentkit-enterprise**](https://github.com/faizanreza-cs/agentkit-enterprise) | Starter kit for AI agents companies can approve for production | Role-based tool policy, human approval with separation of duties, PII redaction, hash-chained audit log, budgets, governance eval |
@@ -42,7 +44,7 @@ Every project ships with tests, CI and Docker; the agent projects also include e
 - **Knowledge assistants**: cited answers over policies, product docs and support content, on your site or in Slack
 - **Internal agents**: support desk, finance ops and IT automation, with the controls your security team asks for
 - **MCP servers and integrations**: connect AI assistants to your databases, APIs and SaaS tools
-- **Pharma and healthcare analytics**: forecasting, patient journey, HCP targeting, pharmacovigilance
+- **Pharma and healthcare analytics**: formulary and market access tracking, forecasting, patient journey, HCP targeting, pharmacovigilance
 
 ---
 
@@ -60,8 +62,7 @@ Every project ships with tests, CI and Docker; the agent projects also include e
 
 ### 🌱 Currently building
 
-- Bayesian pharmacovigilance signals (EBGM) and label-grounded safety Q&A on top of pharma-mcp
-- Clinical-trial enrollment forecasting from ClinicalTrials.gov
+- PDLwatch on real state PDLs: RxNorm drug-name matching, and alerts when a watched brand's coverage changes
 
 ---
 
