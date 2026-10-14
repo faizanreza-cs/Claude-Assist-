@@ -45,21 +45,12 @@ those same analytics as tools and replies with figures traced to their source.
 
 ## The AI layer
 
-```mermaid
-flowchart LR
-    U[Brand team question] --> A[Agent loop<br/>llm/agent.py]
-    A -->|system prompt + tool catalogue| P{LLMProvider}
-    P --> C[Anthropic API<br/>official SDK]
-    P --> O[OpenAI<br/>optional]
-    P --> M[Mock router<br/>offline / CI]
-    A -->|tool calls| T[Tools<br/>llm/tools.py]
-    T --> AN[Analytics modules<br/>forecasting · share · persistence · targeting · promo]
-    T --> G[SQL guard<br/>sqlglot: SELECT-only, allow-list, LIMIT, timeout]
-    AN --> DB[(DuckDB<br/>synthetic star schema)]
-    G --> DB
-    A --> R[Answer + full trace<br/>tools, args, outputs, latency, tokens]
-    R --> API[FastAPI /ask] & UI[Streamlit chat]
-```
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/architecture-dark.png">
+  <img src="docs/img/architecture.png" alt="How PharmaPulse answers a question" width="772">
+</picture>
+</p>
 
 The design choices that matter in production:
 

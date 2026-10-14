@@ -1,0 +1,9 @@
+flowchart TB
+    U[Brand team question] --> A[Agent loop<br/>llm/agent.py]
+    A -->|system prompt +<br/>tool catalogue| P[LLM provider<br/>Anthropic API · OpenAI<br/>mock router offline / CI]
+    A -->|tool calls| T[Tools<br/>llm/tools.py]
+    T --> AN[Analytics modules<br/>forecasting · share<br/>persistence · targeting<br/>promo]
+    T --> G[SQL guard<br/>SELECT-only · allow-list<br/>LIMIT · timeout]
+    AN & G --> DB[(DuckDB<br/>synthetic star schema)]
+    A --> R[Answer + full trace<br/>tools · args · outputs<br/>latency · tokens]
+    R --> API[FastAPI /ask<br/>Streamlit chat]
