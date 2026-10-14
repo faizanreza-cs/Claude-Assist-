@@ -1,38 +1,50 @@
 <!--
   Profile README for github.com/faizanreza-cs.
   To publish: create a public repo named exactly `faizanreza-cs` and put this file at its root.
-  Fill in the TODO links before publishing.
+  Replace YOUR-LINKEDIN-ID with your LinkedIn profile id before publishing.
 -->
 
 # Hi, I'm Faizan Reza
 
-**AI Engineer · Pharma Commercial Analytics**: I build LLM agents and analytics that help
-brand teams forecast demand, understand patient behaviour and decide where to spend.
+**AI Engineer · Consumer Health, CPG & Pharma Analytics · LLM Agents**: I build analytics and
+AI that teams can put into production: retail media and marketing measurement, recommendation
+engines and review NLP for consumer brands, analytics for pharma and healthcare teams, and
+governed LLM agents and automations.
 
-📍 Delhi, India · 🎓 Computer Science Engineering graduate · 💼 Open to AI engineering and pharma analytics roles
+📍 Delhi, India · 🎓 Computer Science Engineering graduate · 💼 Available for freelance projects and full-time AI engineering roles
 
 [![Email](https://img.shields.io/badge/email-faizanreza01%40gmail.com-blue)](mailto:faizanreza01@gmail.com)
-<!-- TODO: [![LinkedIn](https://img.shields.io/badge/LinkedIn-profile-0A66C2)](https://www.linkedin.com/in/YOUR-HANDLE) -->
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2)](https://www.linkedin.com/in/YOUR-LINKEDIN-ID)
+[![X](https://img.shields.io/badge/X-Follow-000000?logo=x&logoColor=white)](https://x.com/cs_faizan)
 
 ---
 
-### 🔭 Featured project: [PharmaPulse](https://github.com/faizanreza-cs/Claude-Assist-)
+### 🔭 Projects
 
-An AI analytics copilot for a pharma brand team, built end to end on a seeded synthetic
-type 2 diabetes market (4 brands · 2,000 HCPs · 12,000 patients · 3 years of weekly Rx).
+| Project | What it does | Highlights |
+|---|---|---|
+| [**PDLwatch**](https://github.com/faizanreza-cs/pdlwatch) | State Medicaid preferred drug lists, read from PDFs (tables, lists, scans, prose) and tracked over time | 2 wrong of 5,112 auto-accepted rows on held-out states of a 106-PDF test set, every row cited to its page, a review queue for the rest, changes and point-in-time history |
+| [**retail-media-lab**](https://github.com/faizanreza-cs/retail-media-lab) | Amazon Ads analytics for a supplements brand: AMC-style SQL, attribution, a geo holdout, a marketing mix model and a budget optimizer | Every method scored against a simulator's truth (geo-test iROAS 2.03 vs true 1.90; budget plan reaches 89% of the best possible) |
+| [**shelfsense**](https://github.com/faizanreza-cs/shelfsense) | Consumer insights for a health and nutrition store: recommender, review aspect sentiment, monitoring | Learned re-ranker that lifts recall 28% over the best single model on 91k real Amazon reviews, LLM labels distilled into a cheap classifier, an alert that caught a simulated reformulation in its first month |
+| [**agentkit-enterprise**](https://github.com/faizanreza-cs/agentkit-enterprise) | Starter kit for AI agents companies can approve for production | Role-based tool policy, human approval with separation of duties, PII redaction, hash-chained audit log, budgets, governance eval |
+| [**docflow-agent**](https://github.com/faizanreza-cs/docflow-agent) | Invoices, receipts and contracts → validated structured data | LLM structured outputs, totals/date/duplicate checks, human review queue, CSV / Sheets / webhook export |
+| [**ragdesk**](https://github.com/faizanreza-cs/ragdesk) | Answers from company docs with citations, refuses to guess | Hybrid BM25 + vector retrieval, citation guardrails, eval suite, website widget, Slack bot |
+| [**pharma-mcp**](https://github.com/faizanreza-cs/pharma-mcp) | MCP server for FDA labels, FAERS, recalls and ClinicalTrials.gov | PRR/ROR signal detection with CIs, cached and rate-limited, tested through a real MCP client |
+| [**PharmaPulse**](https://github.com/faizanreza-cs/pharmapulse) | AI analytics copilot for a pharma brand team | Forecasting (3.1% WAPE), Kaplan-Meier persistence, HCP targeting, 12-tool agent with SQL guardrails |
 
-- **LLM agent** (Claude by default, provider-agnostic) that answers brand questions by calling
-  12 analytics tools. Every figure is traced to a tool output; model-written SQL runs through
-  a `sqlglot` read-only guard.
-- **Forecasting**: seasonal-naive / Holt-Winters / gradient boosting, auto-selected by holdout
-  WAPE (mean **3.1%** for the selected ETS model), with prediction intervals.
-- **Patient analytics**: Kaplan-Meier persistence, PDC adherence, switching flows from claims.
-- **HCP targeting**: volume deciles, value × loyalty segments, next-best-target scoring,
-  adstocked promotional response.
-- **Evals and engineering**: 25-question golden eval harness, 62 tests, FastAPI, Streamlit,
-  Docker, GitHub Actions.
+Every project ships with tests, CI and Docker; the agent projects also include evals and an offline demo mode.
 
-<img src="https://raw.githubusercontent.com/faizanreza-cs/Claude-Assist-/main/docs/img/overview.png" width="720" alt="PharmaPulse dashboard"/>
+<img src="https://raw.githubusercontent.com/faizanreza-cs/retail-media-lab/main/docs/img/attribution_vs_truth.png" width="420" alt="retail-media-lab: attribution methods against the true causal share"/> <img src="https://raw.githubusercontent.com/faizanreza-cs/shelfsense/main/docs/img/monitoring.png" width="420" alt="shelfsense: monitoring flags a reformulated product"/>
+
+### 🤝 What I can build for you
+
+- **Retail media and marketing analytics**: Amazon Ads and AMC-style analysis, attribution, incrementality tests, marketing mix models, budget optimization
+- **Consumer insights**: recommendation engines, review and survey NLP with LLMs, model monitoring
+- **Document automation**: invoices, receipts, contracts, forms, lab reports → your ERP, CRM or spreadsheets
+- **Knowledge assistants**: cited answers over policies, product docs and support content, on your site or in Slack
+- **Internal agents**: support desk, finance ops and IT automation, with the controls your security team asks for
+- **MCP servers and integrations**: connect AI assistants to your databases, APIs and SaaS tools
+- **Pharma and healthcare analytics**: formulary and market access tracking, forecasting, patient journey, HCP targeting, pharmacovigilance
 
 ---
 
@@ -40,17 +52,18 @@ type 2 diabetes market (4 brands · 2,000 HCPs · 12,000 patients · 3 years of 
 
 | Area | Tools |
 |---|---|
-| AI engineering | LLM tool use and agents, evals, prompt design, RAG, Anthropic SDK, OpenAI SDK |
-| Analytics and ML | Python, pandas, statsmodels, scikit-learn, lifelines, time-series forecasting, survival analysis |
-| Data | SQL, DuckDB, data modelling (star schemas), sqlglot |
+| AI engineering | LLM agents and tool use, MCP servers, RAG, structured outputs, evals, guardrails, Anthropic SDK, OpenAI SDK, Azure OpenAI |
+| Analytics and ML | Python, pandas, scikit-learn, statsmodels, recommender systems, NLP, causal inference (difference-in-differences, synthetic control), marketing mix modelling, forecasting, survival analysis |
+| Data | SQL, Snowflake, DuckDB, data modelling (star schemas), sqlglot |
+| BI and platforms | Power BI (DAX), Dataiku, Microsoft Copilot Studio |
 | Apps and delivery | FastAPI, Streamlit, Plotly, Docker, GitHub Actions, pytest, ruff, mypy |
+| Consumer health and CPG | Retail media (Amazon Ads, AMC-style data), e-commerce, consumer insights from reviews, model monitoring |
 | Pharma domain | TRx/NRx and syndicated Rx data, market share and launch analytics, patient persistence and adherence (PDC), HCP deciling and targeting, promotional response, payer and formulary access |
 
 ### 🌱 Currently building
 
-- Drug-safety signal detection on FDA adverse event data (FAERS) with a label-grounded RAG assistant
-- Clinical-trial enrollment forecasting from ClinicalTrials.gov
+- PDLwatch on real state PDLs: RxNorm drug-name matching, and alerts when a watched brand's coverage changes
 
 ---
 
-<sub>Open to roles in AI engineering, LLM applications and pharma / life-sciences analytics. Reach me at faizanreza01@gmail.com.</sub>
+<sub>Open to freelance projects and roles in AI engineering, consumer health and CPG analytics, AI automation and pharma / life-sciences analytics. Reach me at faizanreza01@gmail.com.</sub>

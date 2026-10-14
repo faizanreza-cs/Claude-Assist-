@@ -20,6 +20,7 @@ def small_db(tmp_path_factory: pytest.TempPathFactory):
     from pharmapulse.analytics import patient_journey
 
     patient_journey._all_episodes.cache_clear()
+    patient_journey.adherence.cache_clear()
     yield path
     if old is None:
         os.environ.pop("PHARMAPULSE_DB", None)

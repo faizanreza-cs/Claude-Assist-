@@ -21,7 +21,7 @@ from lifelines import KaplanMeierFitter
 from pharmapulse.db import query
 
 
-def load_claims(brand: str | None = None) -> pd.DataFrame:
+def load_claims() -> pd.DataFrame:
     sql = """
         SELECT c.patient_id, c.brand, c.fill_date, c.days_supply, p.age_band, p.region
         FROM claims c JOIN patients p USING (patient_id)
@@ -29,9 +29,6 @@ def load_claims(brand: str | None = None) -> pd.DataFrame:
     """
     df = query(sql)
     df["fill_date"] = pd.to_datetime(df["fill_date"])
-    if brand:
-        first = df.groupby("patient_id")["brand"].transform("first")
-        df = df[first == brand]
     return df
 
 
@@ -40,7 +37,7 @@ def therapy_episodes(claims: pd.DataFrame, gap_days: int = 60) -> pd.DataFrame:
 
     Returns ``duration_days`` and ``event`` (1 = discontinued or switched, 0 = censored).
     """
-    data_end = claims["fill_date"].max() + pd.Timedelta(days=30)
+    data_end = claims["fill_date"].max()  # last observed day; later days were never seen
     rows = []
     for pid, g in claims.groupby("patient_id", sort=False):
         brand = g["brand"].iloc[0]
@@ -142,6 +139,7 @@ def pdc(claims: pd.DataFrame, window_days: int = 365) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+@lru_cache(maxsize=4)
 def adherence(window_days: int = 365) -> pd.DataFrame:
     """Mean PDC and % adherent (PDC >= 0.8) by index brand."""
     claims = load_claims()

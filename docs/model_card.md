@@ -29,7 +29,7 @@ with prescribing potential, so the estimate should not be read as causal ROI.
   users can check the source.
 - `run_sql` is restricted to read-only, allow-listed, row-limited queries with a timeout.
 - The mock eval (100%) measures pipeline correctness only. Model quality must be measured with
-  `make eval-claude`. Golden questions use fixed phrasing, so add paraphrases before drawing
+  `make eval-llm`. Golden questions use fixed phrasing, so add paraphrases before drawing
   conclusions about robustness.
 - No PHI is present. With real patient data, apply de-identification, access control, audit
   logging, and a zero-data-retention agreement with the LLM provider.

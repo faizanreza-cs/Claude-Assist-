@@ -22,7 +22,7 @@ from pharmapulse.analytics import (
 )
 from pharmapulse.config import get_settings
 from pharmapulse.db import connection
-from pharmapulse.llm.sql_guard import UnsafeSQLError, validate
+from pharmapulse.llm.sql_guard import validate
 
 BRANDS = ["Glyvance", "Sitaglin", "Dapaflo", "Glucora"]
 REGIONS = ["Northeast", "Southeast", "Midwest", "Southwest", "West"]
@@ -76,8 +76,10 @@ def t_brand_growth(metric: str = "trx", weeks: int = 13) -> dict:
 
 def t_forecast_brand(brand: str, horizon_weeks: int = 13, metric: str = "trx",
                      model: str = "auto") -> dict:  # fmt: skip
-    fc = forecasting.forecast(brand, horizon_weeks, metric, model)
     bt = forecasting.backtest(brand, metric, horizon=13)
+    if model == "auto":  # the same 13-week backtest the note and table report
+        model = str(bt.sort_values("wape").iloc[0]["model"])
+    fc = forecasting.forecast(brand, horizon_weeks, metric, model)
     d = fc.to_dict()
     weeks = d.pop("weeks")
     return _ok(
@@ -120,7 +122,7 @@ def t_switching_matrix(gap_days: int = 60) -> dict:
 def t_next_best_targets(
     n: int = 10, region: str | None = None, specialty: str | None = None
 ) -> dict:
-    df = hcp_segmentation.next_best_targets(min(n, 50), region, specialty)
+    df = hcp_segmentation.next_best_targets(max(1, min(n, 50)), region, specialty)
     return _ok(df, note="Score = Glyvance headroom TRx (last 52w) discounted by existing call "
                         "intensity.")  # fmt: skip
 
@@ -267,7 +269,5 @@ def execute(name: str, args: dict[str, Any]) -> tuple[str, bool]:
     fn, _ = TOOLS[name]
     try:
         return json.dumps(fn(**args), default=str), False
-    except (UnsafeSQLError, ValueError, TypeError, KeyError) as e:
-        return json.dumps({"error": f"{type(e).__name__}: {e}"}), True
     except Exception as e:  # duckdb errors, interrupts, etc.
         return json.dumps({"error": f"{type(e).__name__}: {e}"}), True

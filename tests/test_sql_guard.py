@@ -12,9 +12,13 @@ def test_existing_small_limit_kept():
     assert "LIMIT 5" in validate("SELECT * FROM hcps LIMIT 5", row_limit=50)
 
 
+def test_percent_limit_still_capped():
+    assert validate("SELECT * FROM claims LIMIT 10 PERCENT", row_limit=50).endswith("LIMIT 50")
+
+
 def test_large_limit_capped():
     out = validate("SELECT * FROM hcps LIMIT 100000", row_limit=50)
-    assert "LIMIT 50" in out and "100000" not in out
+    assert out.endswith("LIMIT 50")
 
 
 def test_cte_and_join_allowed():
@@ -44,3 +48,35 @@ def test_cte_and_join_allowed():
 def test_unsafe_sql_rejected(sql):
     with pytest.raises(UnsafeSQLError):
         validate(sql)
+
+
+@pytest.fixture
+def secret(tmp_path):
+    f = tmp_path / "secret.csv"
+    f.write_text("token\nTOPSECRET\n")
+    return f.as_posix()
+
+
+@pytest.mark.parametrize(
+    "sql",
+    [
+        "SELECT * FROM brands, LATERAL read_ndjson('{f}')",
+        "SELECT * FROM brands, LATERAL json_execute_serialized_sql("
+        "json_serialize_sql('SELECT * FROM read_text(''{f}'')'))",
+        'SELECT * FROM (WITH "{f}" AS (SELECT 1) SELECT 1) t, "{f}"',
+        'WITH a AS (SELECT * FROM "{f}"), "{f}" AS (SELECT 1) SELECT * FROM a',
+    ],
+)
+def test_file_reads_blocked_end_to_end(secret, sql):
+    from pharmapulse.llm import tools
+
+    out, is_error = tools.execute("run_sql", {"sql": sql.format(f=secret)})
+    assert is_error and "TOPSECRET" not in out
+
+
+def test_tool_args_cannot_inject_sql():
+    from pharmapulse.llm import tools
+
+    for name in ("brand_growth", "launch_uptake"):
+        out, is_error = tools.execute(name, {"metric": "CAST(1 AS INT)"})
+        assert is_error and "metric must be" in out

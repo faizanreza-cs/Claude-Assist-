@@ -1,7 +1,7 @@
 PY ?= .venv/bin/python
 UV ?= uv
 
-.PHONY: setup data test lint eval eval-claude api app demo docker notebooks clean
+.PHONY: setup data test lint eval eval-llm api app demo docker notebooks clean
 
 setup:            ## create venv and install everything
 	$(UV) venv --allow-existing .venv
@@ -21,7 +21,7 @@ lint:             ## ruff + format check + mypy
 eval:             ## agent eval on golden questions with the offline mock provider
 	$(PY) -m pharmapulse.evals.run_evals --provider mock --min-pass-rate 0.95
 
-eval-claude:      ## agent eval against Claude (needs ANTHROPIC_API_KEY)
+eval-llm:         ## agent eval against the Anthropic API (needs ANTHROPIC_API_KEY, PHARMAPULSE_MODEL)
 	$(PY) -m pharmapulse.evals.run_evals --provider anthropic
 
 api:              ## REST API on :8000

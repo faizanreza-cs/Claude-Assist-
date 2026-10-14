@@ -8,18 +8,21 @@ GitHub settings. Nothing here has been deleted or changed for you.
 
 - 38 public repos, **34 of them forks**. Recruiters and hiring managers skip forks, and a page of
   them buries your own work.
-- Only 4 original repos, none substantial yet: `Claude-Assist-` (now PharmaPulse),
+- Only 4 original repos, none substantial yet: the PharmaPulse repo,
   `greyatom-python-for-data-science` (2020 coursework), `codersrank-practice`,
   `friendly-octo-meme` (empty, 2017).
 - No profile README, a generic bio, no pinned repos, no topics.
 
 ## 1. Feature the flagship (15 minutes)
 
-- [ ] Merge the PharmaPulse branch into `main` so the README, badges and screenshots show on the repo page.
-- [ ] **Rename** `Claude-Assist-` → `pharmapulse` (Settings → General → Repository name). GitHub
-      redirects the old URL. Then update the links in `README.md` and the profile README.
+- [ ] **Rename** the PharmaPulse repo to `pharmapulse` (Settings → General → Repository name)
+      *before* merging. The README and profile links already point at the new name, and GitHub
+      redirects the old URL.
+- [ ] Merge the PharmaPulse branch into `main` with **Squash and merge**, so the README, badges
+      and screenshots show on the repo page. In the merge dialog, delete any auto-added
+      `Co-authored-by` lines from the commit message. Then delete the feature branch.
 - [ ] Set the repo description: *"AI analytics copilot for pharma brand teams: LLM agent, forecasting, patient persistence, HCP targeting"*.
-- [ ] Add topics: `pharma-analytics` `llm-agents` `claude` `forecasting` `survival-analysis`
+- [ ] Add topics: `pharma-analytics` `llm-agents` `llm` `forecasting` `survival-analysis`
       `healthcare-analytics` `fastapi` `streamlit` `duckdb` `python`.
 - [ ] Turn on GitHub Actions for the repo and confirm the CI badge goes green.
 
@@ -30,11 +33,12 @@ GitHub settings. Nothing here has been deleted or changed for you.
 
 ## 3. Profile settings (10 minutes)
 
-- [ ] **Bio** (≤160 chars): *AI Engineer · LLM agents, forecasting & patient analytics for pharma commercial teams · Python · SQL · Claude*
+- [ ] **Bio** (≤160 chars): *AI Engineer · Consumer health, CPG & pharma analytics · LLM agents · Python · SQL*
 - [ ] Name: Faizan Reza · Location: Delhi, India · enable "Available for hire" (already on).
 - [ ] Add LinkedIn and, if you have one, a website or blog under Social accounts.
 - [ ] Use a clear, professional profile photo.
-- [ ] **Pin** (Customize your pins): PharmaPulse first, then each new original project as you ship it. Pin 4–6 repos maximum, no forks.
+- [ ] **Pin** (Customize your pins), in this order: `retail-media-lab`, `shelfsense`, `agentkit-enterprise`, `pharmapulse`, `ragdesk`, `docflow-agent`. No forks. (`pharma-mcp` stays in the profile README's table.)
+- [ ] Add topics to each new repo, e.g. `ai-agents` `llm` `automation` `mcp` `rag` `document-ai` `fastapi` `python`; for the CPG repos `retail-media` `amazon-ads` `marketing-mix-modeling` `causal-inference` `recommender-system` `nlp`.
 
 ## 4. Remove fork noise (20 minutes)
 
@@ -71,7 +75,7 @@ history**. Suggested next builds, each covering a different part of the pharma v
 
 1. **Drug-safety signal detection** (pharmacovigilance + RAG): pull openFDA FAERS adverse
    event reports, compute disproportionality (PRR, ROR with confidence intervals), and add a
-   Claude assistant that answers "is X a known side effect of Y?" with citations to FDA labels.
+   LLM assistant that answers "is X a known side effect of Y?" with citations to FDA labels.
 2. **Clinical-trial intelligence** (R&D analytics): ingest ClinicalTrials.gov, use an LLM to
    extract structured eligibility criteria, and forecast enrollment duration by phase, area and site count.
 3. For each one, publish a short write-up (LinkedIn post, Medium or dev.to) with the key chart
@@ -84,7 +88,7 @@ says more than bursts.
 
 Use these as written. Every number is reproducible from the repo.
 
-- Built an LLM analytics copilot (Claude, provider-agnostic tool-use agent) that answers pharma
+- Built an LLM analytics copilot (provider-agnostic tool-use agent on the Anthropic API) that answers pharma
   brand questions by calling 12 tested analytics tools, with every figure traced to its source
   and model-written SQL constrained by a sqlglot read-only guard.
 - Developed weekly TRx/NRx forecasting (Holt-Winters, gradient boosting, seasonal baseline)
@@ -92,4 +96,4 @@ Use these as written. Every number is reproducible from the repo.
 - Implemented patient-level persistence (Kaplan-Meier), PDC adherence and switching analytics on
   ~120k pharmacy claims, plus HCP decile/segment targeting and adstocked promotional response.
 - Shipped it as a FastAPI service and Streamlit dashboard with Docker, GitHub Actions CI,
-  62 tests and a 25-question golden evaluation harness.
+  63 tests and a 25-question golden evaluation harness.

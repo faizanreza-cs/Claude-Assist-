@@ -141,7 +141,7 @@ def test_anthropic_provider_request_and_parsing():
     from pharmapulse.llm.provider import AnthropicProvider
 
     p = object.__new__(AnthropicProvider)  # skip client construction (no API key in CI)
-    p.model, p.effort = "claude-opus-5-5", "medium"
+    p.model, p.effort, p.fallbacks = "test-model", "medium", True
     fake = _FakeMessages()
     p.client = SimpleNamespace(beta=SimpleNamespace(messages=fake), messages=fake)
     turn = p.complete("sys", [{"role": "user", "content": "q"}], tools.tool_definitions())
@@ -155,3 +155,16 @@ def test_anthropic_provider_request_and_parsing():
     assert turn.text == "Checking share."
     assert len(turn.content) == 3  # thinking block kept so it can be echoed back unchanged
     assert turn.usage == {"input_tokens": 1200, "output_tokens": 80}
+
+
+def test_provider_requires_model_id(monkeypatch):
+    import pytest
+
+    from pharmapulse.config import Settings
+    from pharmapulse.llm.provider import get_provider
+
+    monkeypatch.setenv("PHARMAPULSE_MODEL", "")
+    with pytest.raises(ValueError, match="PHARMAPULSE_MODEL"):
+        get_provider("anthropic", Settings())
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+    assert get_provider("auto", Settings()).name == "mock"  # no model id -> offline mode

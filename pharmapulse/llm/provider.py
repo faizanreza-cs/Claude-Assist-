@@ -1,8 +1,8 @@
 """Provider-agnostic LLM interface.
 
 The agent speaks one message format (Anthropic-style content blocks) and every provider
-translates to and from it. That keeps the agent loop identical whether it runs on Claude
-(default), OpenAI, or the deterministic ``MockProvider`` used in tests and CI.
+translates to and from it. That keeps the agent loop identical whether it runs on the
+Anthropic API (default), OpenAI, or the deterministic ``MockProvider`` used in tests and CI.
 """
 
 from __future__ import annotations
@@ -30,7 +30,7 @@ class Turn:
     text: str
     tool_calls: list[ToolCall]
     stop_reason: str  # "end_turn" | "tool_use" | "refusal" | "max_tokens" | ...
-    # Exactly what to append to history as the assistant message content. For Claude this
+    # Exactly what to append to history as the assistant message content. For Anthropic this
     # is the raw response content (thinking blocks must be echoed back unchanged).
     content: list[Any]
     usage: dict[str, int] = field(default_factory=dict)
@@ -45,14 +45,20 @@ class LLMProvider(Protocol):
     ) -> Turn: ...
 
 
-# --------------------------------------------------------------------------- Claude
+# --------------------------------------------------------------------------- Anthropic
 
-# Models that accept server-side refusal fallbacks (Claude API only)
-_FALLBACK_MODELS = ("claude-opus-5-5", "claude-fable-5-1", "claude-opus-5", "claude-sonnet-5-5")
+
+def _require_model(s: Settings, provider: str) -> str:
+    if not s.model:
+        raise ValueError(
+            f"PHARMAPULSE_MODEL is not set; set it to the {provider} model id to use, "
+            "or use PHARMAPULSE_PROVIDER=mock"
+        )
+    return s.model
 
 
 class AnthropicProvider:
-    """Claude via the official ``anthropic`` SDK, with server-side refusal fallback."""
+    """Anthropic Messages API via the official ``anthropic`` SDK."""
 
     name = "anthropic"
 
@@ -60,8 +66,9 @@ class AnthropicProvider:
         import anthropic
 
         s = settings or get_settings()
-        self.model = s.model
+        self.model = _require_model(s, "Anthropic")
         self.effort = s.effort
+        self.fallbacks = s.fallbacks
         self.client = anthropic.Anthropic()
 
     def complete(
@@ -75,7 +82,7 @@ class AnthropicProvider:
             "tools": tools,
             "output_config": {"effort": self.effort},
         }
-        if self.model.startswith(_FALLBACK_MODELS):
+        if self.fallbacks:
             kwargs["betas"] = ["server-side-fallback-2026-07-01"]
             kwargs["fallbacks"] = "default"
             resp = self.client.beta.messages.create(**kwargs)
@@ -118,7 +125,7 @@ class OpenAIProvider:
         from openai import OpenAI
 
         s = settings or get_settings()
-        self.model = os.environ.get("PHARMAPULSE_OPENAI_MODEL", s.model)
+        self.model = os.environ.get("PHARMAPULSE_OPENAI_MODEL") or _require_model(s, "OpenAI")
         self.client = OpenAI()
 
     @staticmethod
@@ -350,7 +357,7 @@ def get_provider(name: str | None = None, settings: Settings | None = None) -> L
     s = settings or get_settings()
     name = (name or s.provider).lower()
     if name == "auto":
-        name = "anthropic" if _has_anthropic_credentials() else "mock"
+        name = "anthropic" if _has_anthropic_credentials() and s.model else "mock"
     if name == "anthropic":
         return AnthropicProvider(s)
     if name == "openai":

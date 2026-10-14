@@ -18,7 +18,8 @@ def _connect(path: str) -> duckdb.DuckDBPyConnection:
         raise FileNotFoundError(
             f"Database not found at {path}. Run `make data` (or `pharmapulse build-data`) first."
         )
-    return duckdb.connect(path, read_only=True)
+    # no file/network access from SQL: the model-written SQL guard is not the only line of defence
+    return duckdb.connect(path, read_only=True, config={"enable_external_access": False})
 
 
 def connection(path: str | Path | None = None) -> duckdb.DuckDBPyConnection:

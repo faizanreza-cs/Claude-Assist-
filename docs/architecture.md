@@ -11,7 +11,7 @@ question →│  FastAPI /ask │     │ Streamlit UI │     │  CLI `ask`   
              ┌────────────────┼────────────────────┐
              ▼                ▼                    ▼
    llm/provider.py      llm/tools.py          evals/run_evals.py
-   Claude │ OpenAI │    12 tools, JSON        golden questions +
+   Anthropic │ OpenAI  12 tools, JSON        golden questions +
    Mock                 outputs w/ notes      computed ground truth
                               │
              ┌────────────────┴───────────────┐
@@ -28,7 +28,7 @@ question →│  FastAPI /ask │     │ Streamlit UI │     │  CLI `ask`   
 ## Agent loop
 
 1. `messages = [user question]`; call the provider with the system prompt and tool catalogue.
-2. On `tool_use`, append the assistant content **unchanged**. With Claude this includes
+2. On `tool_use`, append the assistant content **unchanged**. With the Anthropic API this includes
    thinking blocks, which must be echoed back as-is.
 3. Execute every requested tool. Return **all** results in one user message, using
    `is_error: true` for failures so the model can recover.
@@ -45,8 +45,8 @@ reason, history content and usage. History is stored in Anthropic content-block 
 questions with keyword rules and summarises the first tool result, so the full stack runs
 offline.
 
-Claude specifics: `output_config.effort` is configurable (default `medium`). Server-side
-refusal fallback (`fallbacks: "default"`) is enabled for models that support it, and a
+Anthropic specifics: `output_config.effort` is configurable (default `medium`). Server-side
+refusal fallback (`fallbacks: "default"`) is opt-in via `PHARMAPULSE_FALLBACKS=1`, and a
 `refusal` stop reason is handled before any content is read.
 
 ## Performance notes
