@@ -12,7 +12,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2)](https://www.linkedin.com/in/faizanreza)
-[![X](https://img.shields.io/badge/X-Follow-000000?logo=logoColor=white)](https://x.com/cs_faizan)
+[![X](https://img.shields.io/badge/X-Follow-000000?logo=x&logoColor=white)](https://x.com/cs_faizan)
 
 </div>
 
