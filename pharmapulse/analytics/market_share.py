@@ -79,6 +79,8 @@ def share_trend(metric: str = "trx", freq: str = "month") -> pd.DataFrame:
 
 def growth(metric: str = "trx", weeks: int = 13) -> pd.DataFrame:
     """Latest ``weeks`` vs prior ``weeks`` and vs same period last year, per brand."""
+    if metric not in {"trx", "nrx"}:  # interpolated into SQL below
+        raise ValueError("metric must be 'trx' or 'nrx'")
     lw = latest_week()
     cur_start = lw - pd.Timedelta(weeks=weeks - 1)
     prev_start = cur_start - pd.Timedelta(weeks=weeks)
@@ -104,6 +106,8 @@ def growth(metric: str = "trx", weeks: int = 13) -> pd.DataFrame:
 
 def launch_uptake(brand: str = "Glucora", metric: str = "nrx", weeks: int = 52) -> pd.DataFrame:
     """Weekly share since a brand's first prescription (launch curve)."""
+    if metric not in {"trx", "nrx"}:  # interpolated into SQL below
+        raise ValueError("metric must be 'trx' or 'nrx'")
     sql = f"""
         WITH first AS (SELECT MIN(week) AS launch FROM weekly_rx WHERE brand = ?),
         wk AS (

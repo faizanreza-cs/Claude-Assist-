@@ -27,18 +27,16 @@ MODELS = ("seasonal_naive", "ets", "gbm")
 SEASON = 52
 
 
-def weekly_series(brand: str, metric: str = "trx", region: str | None = None) -> pd.Series:
-    """National (or regional) weekly series for one brand, zero-filled."""
+def weekly_series(brand: str, metric: str = "trx") -> pd.Series:
+    """National weekly series for one brand, zero-filled."""
     if metric not in {"trx", "nrx"}:
         raise ValueError("metric must be 'trx' or 'nrx'")
     sql = f"""
-        SELECT r.week, SUM(r.{metric}) AS value
-        FROM weekly_rx r JOIN hcps h USING (hcp_id)
-        WHERE r.brand = ? {"AND h.region = ?" if region else ""}
+        SELECT week, SUM({metric}) AS value
+        FROM weekly_rx WHERE brand = ?
         GROUP BY 1 ORDER BY 1
     """
-    params: list[Any] = [brand] + ([region] if region else [])
-    df = query(sql, params)
+    df = query(sql, [brand])
     all_weeks = query("SELECT DISTINCT week FROM weekly_rx ORDER BY 1")["week"]
     s = df.set_index("week")["value"].reindex(all_weeks, fill_value=0).astype(float)
     s.index = pd.DatetimeIndex(s.index, freq="W-MON")
@@ -198,7 +196,7 @@ def forecast(brand: str, horizon: int = 13, metric: str = "trx", model: str = "a
     if horizon < 1 or horizon > 52:
         raise ValueError("horizon must be between 1 and 52 weeks")
     if model == "auto":
-        model = best_model(brand, metric, horizon=min(horizon, 13))
+        model = best_model(brand, metric)  # always the 13-week holdout that gets reported
     if model not in _FITTERS:
         raise ValueError(f"unknown model {model!r}; choose from {MODELS} or 'auto'")
     y = weekly_series(brand, metric)

@@ -59,14 +59,5 @@ def validate(sql: str, row_limit: int = 200) -> str:
         if fname in BLOCKED_FUNCTIONS:
             raise UnsafeSQLError(f"function {fname!r} is not allowed")
 
-    limit = tree.args.get("limit")
-    if limit is None:
-        tree = tree.limit(row_limit)
-    else:
-        try:
-            n = int(limit.expression.name)
-        except (AttributeError, ValueError):
-            n = row_limit + 1
-        if n > row_limit:
-            tree = tree.limit(row_limit)
-    return tree.sql(dialect="duckdb")
+    # wrap instead of parsing the inner LIMIT: "LIMIT 10 PERCENT" can't slip past the cap
+    return exp.select("*").from_(tree.subquery("q")).limit(row_limit).sql(dialect="duckdb")

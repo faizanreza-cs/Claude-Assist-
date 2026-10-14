@@ -35,7 +35,6 @@ class Metric(StrEnum):
 
 class AskRequest(BaseModel):
     question: str = Field(min_length=3, max_length=2000)
-    provider: str | None = Field(default=None, description="anthropic | openai | mock")
 
 
 def _run(name: str, **kwargs: Any) -> dict[str, Any]:
@@ -103,8 +102,5 @@ def targets(
 
 @app.post("/ask")
 def ask(req: AskRequest) -> dict[str, Any]:
-    try:
-        agent = Agent(get_provider(req.provider))
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e)) from e
-    return agent.ask(req.question).to_dict()
+    # the provider comes from server config (PHARMAPULSE_PROVIDER), never from the caller
+    return Agent(get_provider()).ask(req.question).to_dict()
