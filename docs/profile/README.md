@@ -1,7 +1,6 @@
 <!--
   Profile README for github.com/faizanreza-cs.
   To publish: create a public repo named exactly `faizanreza-cs` and put this file at its root.
-  Replace YOUR-LINKEDIN-ID with your LinkedIn profile id before publishing.
 -->
 
 # Hi, I'm Faizan Reza
@@ -14,8 +13,8 @@ governed LLM agents and automations.
 📍 Delhi, India · 🎓 Computer Science Engineering graduate · 💼 Available for freelance projects and full-time AI engineering roles
 
 [![Email](https://img.shields.io/badge/email-faizanreza01%40gmail.com-blue)](mailto:faizanreza01@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2)](https://www.linkedin.com/in/YOUR-LINKEDIN-ID)
-[![X](https://img.shields.io/badge/X-Follow-000000?logo=x&logoColor=white)](https://x.com/cs_faizan)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2)](https://www.linkedin.com/in/faizanreza)
+[![X](https://img.shields.io/badge/Follow-000000?logo=x&logoColor=white)](https://x.com/cs_faizan)
 
 ---
 
