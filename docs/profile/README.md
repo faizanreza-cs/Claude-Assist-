@@ -22,7 +22,7 @@ governed LLM agents and automations.
 
 | Project | What it does | Highlights |
 |---|---|---|
-| [**PDLwatch**](https://github.com/faizanreza-cs/pdlwatch) | State Medicaid preferred drug lists, read from PDFs (tables, lists, scans, prose) and tracked over time | 2 wrong of 5,112 auto-accepted rows on held-out states of a 106-PDF test set; on 24 real PDLs from 12 states, all 60 sampled auto-accepted rows right; every row cited to its page, changes, history and alerts on watched brands |
+| [**PDLwatch**](https://github.com/faizanreza-cs/pdlwatch) | State Medicaid preferred drug lists, read from PDFs and Excel lists (tables, lists, scans, prose) and tracked over time | 2 wrong of 5,112 auto-accepted rows on held-out states of a 106-PDF test set; on 26 real PDLs and weekly workbooks from 13 states, 49% of rows auto-accepted and all 60 sampled right; every row cited to its page, changes, history and alerts on watched brands |
 | [**retail-media-lab**](https://github.com/faizanreza-cs/retail-media-lab) | Amazon Ads analytics for a supplements brand: AMC-style SQL, attribution, a geo holdout, a marketing mix model and a budget optimizer | Every method scored against a simulator's truth (geo-test iROAS 2.03 vs true 1.90; budget plan reaches 89% of the best possible) |
 | [**shelfsense**](https://github.com/faizanreza-cs/shelfsense) | Consumer insights for a health and nutrition store: recommender, review aspect sentiment, monitoring | Learned re-ranker that lifts recall 28% over the best single model on 91k real Amazon reviews, LLM labels distilled into a cheap classifier, an alert that caught a simulated reformulation in its first month |
 | [**agentkit-enterprise**](https://github.com/faizanreza-cs/agentkit-enterprise) | Starter kit for AI agents companies can approve for production | Role-based tool policy, human approval with separation of duties, PII redaction, hash-chained audit log, budgets, governance eval |
@@ -61,7 +61,7 @@ Every project ships with tests, CI and Docker; the agent projects also include e
 
 ### 🌱 Currently building
 
-- PDLwatch: more states (managed care formularies next), reviewer decisions that carry over between runs, and a daily sync
+- PDLwatch: more states (managed care formularies next), a browser-based fetch for states that block scripts, and a daily sync
 
 ---
 
